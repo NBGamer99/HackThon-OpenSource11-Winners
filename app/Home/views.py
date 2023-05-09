@@ -20,21 +20,14 @@ def sendHelp(request):
         inc_type = request.POST.get('type')
         lvl = int(request.POST.get('lvl'))
         desc = request.POST.get('description')
-
-
-        # nvm ghire 3gezt 9ado
         tmp = inc_type
-
         lat = float(request.POST.get('lat'))
         lng = float(request.POST.get('lng'))
-
         inc_obj = Incident.objects.create(description=desc, location=Point(lng,lat), level=levels[lvl-1], incident_type=inc_type)
-
-
         coordinates, inc_type, lvl = format_data(inc_obj.id, lvl, lat, lng)
-
     # Fin desired vehicule
     qualif_vehicule = which_vehicules(inc_type, VEHICULE)
+
     valid_vehicule = validate_vehicule(lvl, qualif_vehicule)
 
     better_one = which_one_suits_better(coordinates, valid_vehicule)
@@ -46,7 +39,7 @@ def sendHelp(request):
     html_map = rd_map._repr_html_()
 
     turns = get_turns_number(start_coordination,(lat, lng))
-
+    print("aaaaaaaaaaaa lvl",lvl)
     cont = {
         "vehicule": better_one,
         "map": html_map,
@@ -54,7 +47,7 @@ def sendHelp(request):
         "to" : get_address_from_latlng(coordinates),
         "time": datetime.now(),
         "incident": tmp,
-        "degree" : "High" if lvl == 3 else "Low" if lvl == 1 else "Medium",
+        "degree" : "High" if lvl == 1 else "Low" if lvl == 3 else "Medium",
         "turns" : turns,
     }
 
@@ -70,6 +63,7 @@ from enum import Enum
 import numpy as np
 
 #-------------- CONSTANTS ------------------------
+# VEHICULE = pd.DataFrame(list(Vehicle.objects.all().values()))
 VEHICULE = pd.read_csv("../data/vehicules_urgence_localisation.csv")
 SITE = pd.read_csv("../data/sites_incidents.csv")
 
@@ -84,10 +78,6 @@ def get_site_location(df, index):
     location = (site['site_lat'], site['site_lng'])
     return location
 
-class Type(Enum):
-    FIRE = 1
-    CRIME = 2
-    INJURY = 3
 
 def check_and_factorize(n):
     if n > 3:
@@ -117,9 +107,9 @@ def format_data(id, lvl, lat, lng):
     return coordinates, inc_type, lvl
 
 def which_vehicules(inc_type, df):
-    if inc_type == Type.FIRE :
+    if inc_type == "FIRE" :
         return df[df['vehicule_type'] == 1]
-    elif inc_type == Type.CRIME :
+    elif inc_type == "CRIME" :
         return df[df['vehicule_type'] == 2 ]
     else :
         return df[df['vehicule_type'] == 3]
@@ -127,18 +117,6 @@ def which_vehicules(inc_type, df):
 def validate_vehicule(lvl, df):
     valid_vehicule = df[df['capacite'] >= lvl]
     return valid_vehicule
-
-# ---------- find wish one suit better ----------
-
-# Define the Haversine formula to calculate the distance between two points
-def haversine(lat1, lon1, lat2, lon2):
-    r = 6371  # Earth's radius in kilometers
-    dlat = np.radians(lat2 - lat1)
-    dlon = np.radians(lon2 - lon1)
-    a = np.sin(dlat/2)**2 + np.cos(np.radians(lat1)) * np.cos(np.radians(lat2)) * np.sin(dlon/2)**2
-    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1-a))
-    distance = r * c
-    return distance
 
 def which_one_suits_better(coordinates, valid_vehicules):
 
@@ -151,6 +129,18 @@ def which_one_suits_better(coordinates, valid_vehicules):
     better_one = valid_vehicules.nsmallest(1, 'distance')
 
     return better_one.to_dict(orient='records')[0]
+
+# ---------- find wish one suit better ----------
+
+# Define the Haversine formula to calculate the distance between two points
+def haversine(lat1, lon1, lat2, lon2):
+    r = 6371  # Earth's radius in kilometers
+    dlat = np.radians(lat2 - lat1)
+    dlon = np.radians(lon2 - lon1)
+    a = np.sin(dlat/2)**2 + np.cos(np.radians(lat1)) * np.cos(np.radians(lat2)) * np.sin(dlon/2)**2
+    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1-a))
+    distance = r * c
+    return distance
 
 
 
@@ -177,7 +167,7 @@ def get_turns_number(origin, destination):
             num_turns += 1
     save_file = open("../data/data.json", "w")
     json.dump(directions, save_file, indent = 6)
-    print(json.dump(directions, save_file, indent = 6))
+    # print(json.dump(directions, save_file, indent = 6))
     save_file.close()
     return num_turns
 
@@ -217,12 +207,10 @@ def get_the_map(start_coordination, end_coordination, type):
         distance = dist(node_coords, goal_coords)
 
         # Calculate the number of turns between the current node and the goal
-        path = nx.shortest_path(graph, node, goal, weight='length')
+        path = nx.shortest_path(graph, node, goal, weight='turns')
         turns = sum(1 for i in range(1, len(path)-1) if graph.nodes.get(path[i], {}).get('lanes'))
 
         return distance + turns
-
-
 
     shortest_route = nx.astar_path(graph,
                                   orig_node,

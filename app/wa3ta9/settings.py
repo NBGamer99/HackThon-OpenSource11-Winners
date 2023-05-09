@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'django_extensions',
     'Home',
 ]
 
@@ -130,3 +131,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+GRAPH_MODELS ={
+'all_applications': True,
+'graph_models': True,
+}

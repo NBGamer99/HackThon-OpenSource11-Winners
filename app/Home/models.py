@@ -43,7 +43,8 @@ class Depot(models.Model):
 class Route(models.Model):
     id = models.BigAutoField(primary_key=True)
     chemin = models.CharField(max_length=20)
+    incident_id = models.ForeignKey('Incident', on_delete=models.CASCADE)
     distance = models.CharField(max_length=20)
     vehicule_id = models.ForeignKey('Vehicle', on_delete=models.CASCADE)
-    turns = models.CharField(max_length=20)
+    turns = models.BigIntegerField()
 
