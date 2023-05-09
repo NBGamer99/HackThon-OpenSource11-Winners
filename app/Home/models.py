@@ -34,5 +34,16 @@ class Depot(models.Model):
     id = models.BigAutoField(primary_key=True)
     location = models.PointField(default=None)
 
+
     def __str__(self):
         return str(self.id)
+
+
+
+class Route(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    chemin = models.CharField(max_length=20)
+    distance = models.CharField(max_length=20)
+    vehicule_id = models.ForeignKey('Vehicle', on_delete=models.CASCADE)
+    turns = models.CharField(max_length=20)
+

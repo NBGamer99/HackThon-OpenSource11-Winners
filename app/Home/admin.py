@@ -10,6 +10,8 @@ class VehicleAdminConfig(admin.ModelAdmin):
 
 class DepotAdminConfig(admin.ModelAdmin):
 	list_display = ('id','location')
+class RouteAdminConfig(admin.ModelAdmin):
+	list_display = ('id','chemin', 'distance', 'vehicule_id', 'turns')
 
 admin.site.register(Incident, IncidentAdminConfig)
 admin.site.register(Vehicle, VehicleAdminConfig)

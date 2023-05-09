@@ -3,6 +3,9 @@ from datetime import datetime
 from .models import Incident, Vehicle
 from .utils import load_data
 from django.contrib.gis.geos import Point
+from math import radians, cos, sin, asin, sqrt
+import googlemaps
+
 
 # Create your views here.
 
@@ -42,6 +45,8 @@ def sendHelp(request):
     rd_map = get_the_map(start_coordination, coordinates, tmp)
     html_map = rd_map._repr_html_()
 
+    turns = get_turns_number(start_coordination,(lat, lng))
+
     cont = {
         "vehicule": better_one,
         "map": html_map,
@@ -50,6 +55,7 @@ def sendHelp(request):
         "time": datetime.now(),
         "incident": tmp,
         "degree" : "High" if lvl == 3 else "Low" if lvl == 1 else "Medium",
+        "turns" : turns,
     }
 
     return render(request, 'sendHelp.html', cont)
@@ -153,9 +159,27 @@ import osmnx as ox
 import networkx as nx
 from geopy.geocoders import Nominatim
 import folium as fl
+import json
 
 ox.settings.log_console=True
 ox.settings.use_cache=True
+def get_turns_number(origin, destination):
+    # replace YOUR_API_KEY with your actual API key
+    gmaps = googlemaps.Client(key='AIzaSyA7WTj7mP7fG9oZ1SnkzVKtQ1KXadqurJU')
+
+    # get the directions from Google Maps
+    directions = gmaps.directions(origin, destination)
+
+    # count the number of turns
+    num_turns = 0
+    for step in directions[0]['legs'][0]['steps']:
+        if 'maneuver' in step:
+            num_turns += 1
+    save_file = open("../data/data.json", "w")
+    json.dump(directions, save_file, indent = 6)
+    print(json.dump(directions, save_file, indent = 6))
+    save_file.close()
+    return num_turns
 
 def get_the_map(start_coordination, end_coordination, type):
     icons = {'CRIME':'star', 'FIRE':'fire-extinguisher', 'INJURY':'star-of-life'}
@@ -163,7 +187,7 @@ def get_the_map(start_coordination, end_coordination, type):
     locator = Nominatim(user_agent = "Khouribga Map")
     place     = 'Khouribga, Morocco'# find shortest route based on the mode of travel
     mode      = 'drive'
-    optimizer = 'length'
+    optimizer = 'turns'
 
     graph = ox.graph_from_place(place, network_type = mode)
 
@@ -172,10 +196,40 @@ def get_the_map(start_coordination, end_coordination, type):
     dest_node = ox.distance.nearest_nodes(graph, end_coordination[1],
                                       end_coordination[0])
 
-    shortest_route = nx.shortest_path(graph,
+    def dist(a, b):
+        (lat1 , lon1 )= a
+        (lat2,  lon2 ) = b
+        R = 6372.8  # Earth radius in kilometers
+        dLat = radians(lat2 - lat1)
+        dLon = radians(lon2 - lon1)
+        lat1 = radians(lat1)
+        lat2 = radians(lat2)
+        a = sin(dLat/2)**2 + cos(lat1)*cos(lat2)*sin(dLon/2)**2
+        c = 2*asin(sqrt(a))
+        return R*c
+
+    def heuristic(node, goal):
+        # Calculate the straight-line distance between the node and the goal
+        node_data = graph.nodes[node]
+        goal_data = graph.nodes[goal]
+        node_coords = (node_data['y'], node_data['x'])
+        goal_coords = (goal_data['y'], goal_data['x'])
+        distance = dist(node_coords, goal_coords)
+
+        # Calculate the number of turns between the current node and the goal
+        path = nx.shortest_path(graph, node, goal, weight='length')
+        turns = sum(1 for i in range(1, len(path)-1) if graph.nodes.get(path[i], {}).get('lanes'))
+
+        return distance + turns
+
+
+
+    shortest_route = nx.astar_path(graph,
                                   orig_node,
                                   dest_node,
-                                  weight=optimizer)
+                                  heuristic=heuristic,
+                                  weight=optimizer,
+                                  )
 
     shortest_route_map = ox.plot_route_folium(graph, shortest_route,tiles='openstreetmap')
     fl.Marker(start_coordination, icon=fl.Icon(color=colors[type], icon=icons[type], prefix="fa")).add_to(shortest_route_map)
