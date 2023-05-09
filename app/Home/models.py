@@ -5,6 +5,7 @@ from django.contrib.gis.db import models
 # Create your models here.
 
 class Incident(models.Model):
+    id = models.AutoField(primary_key=True)
     HIGH = 'High'
     MEDIUM = 'Medium'
     LOW = 'Low'
@@ -19,16 +20,10 @@ class Incident(models.Model):
     level = models.CharField(max_length=10, choices=INCIDENT_LEVEL_CHOICES)
     incident_type = models.CharField(max_length=20)
 
-
-class VehicleType(models.Model):
-    name = models.CharField(max_length=100)
-    def __str__(self):
-        return self.name
-
-
 class Vehicle(models.Model):
     id = models.BigAutoField(primary_key=True)
-    vehicle_type = models.ForeignKey(VehicleType, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    vehicle_type = models.CharField(max_length=10)
     depot = models.ForeignKey('Depot', on_delete=models.CASCADE)
     #TODO validate capacity 1 - 3
     capacity = models.PositiveIntegerField()

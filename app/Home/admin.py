@@ -1,15 +1,12 @@
 from django.contrib import admin
-from .models import Incident, Vehicle, Depot, VehicleType
+from .models import Incident, Vehicle, Depot
 # Register your models here.
 
 class IncidentAdminConfig(admin.ModelAdmin):
 	list_display = ( 'description', 'location','level', 'incident_type')
 
 class VehicleAdminConfig(admin.ModelAdmin):
-	list_display = ('id', 'vehicle_type', 'depot', 'capacity')
-
-class VehicleTypeAdminConfig(admin.ModelAdmin):
-	list_display = ('name',)
+	list_display = ('id', 'name', 'depot', 'capacity', 'vehicle_type')
 
 class DepotAdminConfig(admin.ModelAdmin):
 	list_display = ('id','location')
@@ -17,4 +14,3 @@ class DepotAdminConfig(admin.ModelAdmin):
 admin.site.register(Incident, IncidentAdminConfig)
 admin.site.register(Vehicle, VehicleAdminConfig)
 admin.site.register(Depot, DepotAdminConfig)
-admin.site.register(VehicleType, VehicleTypeAdminConfig)

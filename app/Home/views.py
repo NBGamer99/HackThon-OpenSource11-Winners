@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from datetime import datetime
-from .models import Incident, VehicleType, Vehicle
+from .models import Incident, Vehicle
 from .utils import load_data
 from django.contrib.gis.geos import Point
 
@@ -28,18 +28,18 @@ def sendHelp(request):
         inc_obj = Incident.objects.create(description=desc, location=Point(lng,lat), level=levels[lvl-1], incident_type=inc_type)
 
 
-        coordinates, inc_type, lvl = format_data(inc_type, lvl, lat, lng)
+        coordinates, inc_type, lvl = format_data(inc_obj.id, lvl, lat, lng)
 
     # Fin desired vehicule
-    qualif_vehicule = wish_vehicules(inc_type, VEHICULE)
+    qualif_vehicule = which_vehicules(inc_type, VEHICULE)
     valid_vehicule = validate_vehicule(lvl, qualif_vehicule)
 
-    better_one = wish_one_suit_better(coordinates, valid_vehicule)
+    better_one = which_one_suits_better(coordinates, valid_vehicule)
 
     start_coordination = (better_one['vehicule_lat'], better_one['vehicule_lng'])
 
     # generate the map
-    rd_map = get_the_map(start_coordination, coordinates)
+    rd_map = get_the_map(start_coordination, coordinates, tmp)
     html_map = rd_map._repr_html_()
 
     cont = {
@@ -94,15 +94,23 @@ def check_and_factorize(n):
     else:
         return n
 
-def format_data(type, lvl, lat, lng):
+# def format_data(type, lvl, lat, lng):
+#     coordinates = (lat, lng)
+#     inc_type = Type.CRIME if type == "CRIME" else Type.INJURY if type == "INJURY" else Type.FIRE
+#     lvl = check_and_factorize(lvl)
+#     if not isinstance(lvl, int):
+#         raise ("We need multiple requests to manage this!")
+#     return coordinates, inc_type, lvl
+
+def format_data(id, lvl, lat, lng):
     coordinates = (lat, lng)
-    inc_type = Type.CRIME if type == "CRIME" else Type.INJURY if type == "INJURY" else Type.FIRE
+    inc_type = Incident.objects.get(id=id).incident_type
     lvl = check_and_factorize(lvl)
     if not isinstance(lvl, int):
-        raise ("We need multiple requests to manage this!")
+        raise ValueError("We need multiple requests to manage this!")
     return coordinates, inc_type, lvl
 
-def wish_vehicules(inc_type, df):
+def which_vehicules(inc_type, df):
     if inc_type == Type.FIRE :
         return df[df['vehicule_type'] == 1]
     elif inc_type == Type.CRIME :
@@ -126,11 +134,10 @@ def haversine(lat1, lon1, lat2, lon2):
     distance = r * c
     return distance
 
-def wish_one_suit_better(coordinates, valid_vehicules):
+def which_one_suits_better(coordinates, valid_vehicules):
 
     # Define the point of interest
-    poi_lat = coordinates[0]
-    poi_lon = coordinates[1]
+    poi_lat, poi_lon = coordinates
 
     # Calculate the distance from each point to the point of interest
     valid_vehicules['distance'] = valid_vehicules.apply(lambda row: haversine(row['vehicule_lat'], row['vehicule_lng'], poi_lat, poi_lon), axis=1)
@@ -138,6 +145,7 @@ def wish_one_suit_better(coordinates, valid_vehicules):
     better_one = valid_vehicules.nsmallest(1, 'distance')
 
     return better_one.to_dict(orient='records')[0]
+
 
 
 # ------------- Find the optimal path and draw the map ------------------
@@ -149,7 +157,9 @@ import folium as fl
 ox.settings.log_console=True
 ox.settings.use_cache=True
 
-def get_the_map(start_coordination, end_coordination):
+def get_the_map(start_coordination, end_coordination, type):
+    icons = {'CRIME':'star', 'FIRE':'fire-extinguisher', 'INJURY':'star-of-life'}
+    colors = {'CRIME':'blue', 'FIRE':'red', 'INJURY':'pink'}
     locator = Nominatim(user_agent = "Khouribga Map")
     place     = 'Khouribga, Morocco'# find shortest route based on the mode of travel
     mode      = 'drive'
@@ -167,9 +177,8 @@ def get_the_map(start_coordination, end_coordination):
                                   dest_node,
                                   weight=optimizer)
 
-    shortest_route_map = ox.plot_route_folium(graph, shortest_route,
-                                          tiles='openstreetmap')
-    fl.Marker(start_coordination, icon=fl.Icon(color="red", icon="star", prefix="fa")).add_to(shortest_route_map)
+    shortest_route_map = ox.plot_route_folium(graph, shortest_route,tiles='openstreetmap')
+    fl.Marker(start_coordination, icon=fl.Icon(color=colors[type], icon=icons[type], prefix="fa")).add_to(shortest_route_map)
     fl.Marker(end_coordination, icon=fl.Icon(color="orange", icon="triangle-exclamation", prefix="fa")).add_to(shortest_route_map)
     return shortest_route_map
 
