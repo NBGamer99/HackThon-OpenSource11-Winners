@@ -3,16 +3,16 @@ from .models import Incident, Vehicle, Depot, VehicleType
 # Register your models here.
 
 class IncidentAdminConfig(admin.ModelAdmin):
-	list_display = ('INCIDENT_LEVEL_CHOICES', 'description', 'location','level', 'incident_type')
+	list_display = ( 'description', 'location','level', 'incident_type')
 
 class VehicleAdminConfig(admin.ModelAdmin):
-	list_display = ('vehicle_type', 'depot', 'capacity')
+	list_display = ('id', 'vehicle_type', 'depot', 'capacity')
 
 class VehicleTypeAdminConfig(admin.ModelAdmin):
 	list_display = ('name',)
 
 class DepotAdminConfig(admin.ModelAdmin):
-	list_display = ('name', 'location')
+	list_display = ('id','location')
 
 admin.site.register(Incident, IncidentAdminConfig)
 admin.site.register(Vehicle, VehicleAdminConfig)

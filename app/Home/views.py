@@ -1,36 +1,47 @@
 from django.shortcuts import render
 from datetime import datetime
+from .models import Incident, VehicleType, Vehicle
+from .utils import load_data
+from django.contrib.gis.geos import Point
 
 # Create your views here.
 
 def home(request):
+    if Vehicle.objects.first() is None:
+        load_data()
     return render(request, 'index.html')
 
 def sendHelp(request):
     if request.method == 'POST':
+        levels = ['High', 'Medium', 'Low']
         inc_type = request.POST.get('type')
         lvl = int(request.POST.get('lvl'))
-        
+        desc = request.POST.get('description')
+
+
         # nvm ghire 3gezt 9ado
         tmp = inc_type
-        
+
         lat = float(request.POST.get('lat'))
         lng = float(request.POST.get('lng'))
-    
+
+        inc_obj = Incident.objects.create(description=desc, location=Point(lng,lat), level=levels[lvl-1], incident_type=inc_type)
+
+
         coordinates, inc_type, lvl = format_data(inc_type, lvl, lat, lng)
-    
+
     # Fin desired vehicule
     qualif_vehicule = wish_vehicules(inc_type, VEHICULE)
     valid_vehicule = validate_vehicule(lvl, qualif_vehicule)
-    
+
     better_one = wish_one_suit_better(coordinates, valid_vehicule)
-    
+
     start_coordination = (better_one['vehicule_lat'], better_one['vehicule_lng'])
-    
+
     # generate the map
     rd_map = get_the_map(start_coordination, coordinates)
     html_map = rd_map._repr_html_()
-    
+
     cont = {
         "vehicule": better_one,
         "map": html_map,
@@ -40,7 +51,7 @@ def sendHelp(request):
         "incident": tmp,
         "degree" : "High" if lvl == 3 else "Low" if lvl == 1 else "Medium",
     }
-    
+
     return render(request, 'sendHelp.html', cont)
 
 
@@ -56,6 +67,8 @@ import numpy as np
 VEHICULE = pd.read_csv("../data/vehicules_urgence_localisation.csv")
 SITE = pd.read_csv("../data/sites_incidents.csv")
 
+
+
 def get_stations_location(df):
     locations = [(x,y) for x,y in zip(df['vehicule_lat'], df['vehicule_lng'])]
     return locations
@@ -69,7 +82,7 @@ class Type(Enum):
     FIRE = 1
     CRIME = 2
     INJURY = 3
-    
+
 def check_and_factorize(n):
     if n > 3:
         factors = []
@@ -80,7 +93,7 @@ def check_and_factorize(n):
         return factors
     else:
         return n
-    
+
 def format_data(type, lvl, lat, lng):
     coordinates = (lat, lng)
     inc_type = Type.CRIME if type == "CRIME" else Type.INJURY if type == "INJURY" else Type.FIRE
@@ -96,12 +109,12 @@ def wish_vehicules(inc_type, df):
         return df[df['vehicule_type'] == 2 ]
     else :
         return df[df['vehicule_type'] == 3]
-    
+
 def validate_vehicule(lvl, df):
     valid_vehicule = df[df['capacite'] >= lvl]
     return valid_vehicule
 
-# ---------- find wish one suit better ---------- 
+# ---------- find wish one suit better ----------
 
 # Define the Haversine formula to calculate the distance between two points
 def haversine(lat1, lon1, lat2, lon2):
@@ -114,16 +127,16 @@ def haversine(lat1, lon1, lat2, lon2):
     return distance
 
 def wish_one_suit_better(coordinates, valid_vehicules):
-    
+
     # Define the point of interest
     poi_lat = coordinates[0]
     poi_lon = coordinates[1]
-    
+
     # Calculate the distance from each point to the point of interest
     valid_vehicules['distance'] = valid_vehicules.apply(lambda row: haversine(row['vehicule_lat'], row['vehicule_lng'], poi_lat, poi_lon), axis=1)
-    
+
     better_one = valid_vehicules.nsmallest(1, 'distance')
-    
+
     return better_one.to_dict(orient='records')[0]
 
 
@@ -140,21 +153,21 @@ def get_the_map(start_coordination, end_coordination):
     locator = Nominatim(user_agent = "Khouribga Map")
     place     = 'Khouribga, Morocco'# find shortest route based on the mode of travel
     mode      = 'drive'
-    optimizer = 'length' 
-    
+    optimizer = 'length'
+
     graph = ox.graph_from_place(place, network_type = mode)
-    
-    orig_node = ox.distance.nearest_nodes(graph, start_coordination[1], 
+
+    orig_node = ox.distance.nearest_nodes(graph, start_coordination[1],
                                       start_coordination[0])# find the nearest node to the end location
     dest_node = ox.distance.nearest_nodes(graph, end_coordination[1],
                                       end_coordination[0])
-    
+
     shortest_route = nx.shortest_path(graph,
                                   orig_node,
                                   dest_node,
                                   weight=optimizer)
-    
-    shortest_route_map = ox.plot_route_folium(graph, shortest_route, 
+
+    shortest_route_map = ox.plot_route_folium(graph, shortest_route,
                                           tiles='openstreetmap')
     fl.Marker(start_coordination, icon=fl.Icon(color="red", icon="star", prefix="fa")).add_to(shortest_route_map)
     fl.Marker(end_coordination, icon=fl.Icon(color="orange", icon="triangle-exclamation", prefix="fa")).add_to(shortest_route_map)
@@ -164,11 +177,11 @@ def get_the_map(start_coordination, end_coordination):
 def get_address_from_latlng(coordination):
     # Initialize a geolocator with Nominatim
     geolocator = Nominatim(user_agent='myapp')
-    
+
     # Get the location object from the latitude and longitude
     location = geolocator.reverse(coordination, exactly_one=True)
-    
+
     # Get the address string from the location object
     address = location.address
-    
+
     return address.split(',', 1)[0]

@@ -18,7 +18,7 @@
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-md">
-            <a class="navbar-brand" href="#">Wa3Ta9</a>
+            <a class="navbar-brand" href="/">Wa3Ta9</a>
         </div>
     </nav>
 
@@ -67,16 +67,23 @@
                             <input type="text" class="form-control item" value="CRIME" readonly name="type" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control item" placeholder="Niveau" name="lvl" required>
+                            <!-- <input type="text" class="form-control item" placeholder="Niveau" name="lvl" required> -->
+
+                            <select class="form-select item" aria-label="Niveau" name="lvl" required>
+                                <option selected>Select Threat Level</option>
+                                <option value="1">High</option>
+                                <option value="2">Medium</option>
+                                <option value="3">Low</option>
+                            </select>
+
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control item" placeholder="Description" name="description" required>
                         </div>
                         <div class="form-group">
                             <!-- Latitude and longitude inputs -->
-                            <input type="text" id="lat1" class="form-control item" placeholder="Latitude" name="lat" readonly required/>
-                            <input type="text" id="lng1" class="form-control item" placeholder="Longitude" name="lng" readonly required/>
-
+                            <input type="text" id="lat1" class="form-control item" placeholder="Latitude" name="lat" readonly required />
+                            <input type="text" id="lng1" class="form-control item" placeholder="Longitude" name="lng" readonly required />
                             <div id="map1" style="height: 350px;"></div>
                         </div>
                     </div>
@@ -104,15 +111,21 @@
                             <input type="text" class="form-control item" value="INJURY" readonly name="type" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control item" placeholder="Niveau" name="lvl" required>
+                            <!-- <input type="text" class="form-control item" placeholder="Niveau" name="lvl" required> -->
+                            <select class="form-select item" aria-label="Niveau" name="lvl" required>
+                                <option selected>Select Threat Level</option>
+                                <option value="1">High</option>
+                                <option value="2">Medium</option>
+                                <option value="3">Low</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control item" placeholder="Description" name="description" required>
                         </div>
                         <div class="form-group">
                             <!-- Latitude and longitude inputs -->
-                            <input type="text" id="lat2" class="form-control item" placeholder="Latitude" name="lat" readonly required/>
-                            <input type="text" id="lng2" class="form-control item" placeholder="Longitude" name="lng" readonly required/>
+                            <input type="text" id="lat2" class="form-control item" placeholder="Latitude" name="lat" readonly required />
+                            <input type="text" id="lng2" class="form-control item" placeholder="Longitude" name="lng" readonly required />
 
                             <div id="map2" style="height: 350px;"></div>
                         </div>
@@ -141,15 +154,21 @@
                             <input type="text" class="form-control item" value="FIRE" readonly name="type" required>
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control item" placeholder="Niveau" name="lvl" required>
+                            <!-- <input type="text" class="form-control item" placeholder="Niveau" name="lvl" required> -->
+                            <select class="form-select item" aria-label="Niveau" name="lvl" required>
+                                <option selected>Select Threat Level</option>
+                                <option value="1">High</option>
+                                <option value="2">Medium</option>
+                                <option value="3">Low</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <input type="text" class="form-control item" placeholder="Description" name="description" required>
                         </div>
                         <div class="form-group">
                             <!-- Latitude and longitude inputs -->
-                            <input type="text" id="lat3" class="form-control item" placeholder="Latitude" name="lat" readonly required/>
-                            <input type="text" id="lng3" class="form-control item" placeholder="Longitude" name="lng" readonly required/>
+                            <input type="text" id="lat3" class="form-control item" placeholder="Latitude" name="lat" readonly required />
+                            <input type="text" id="lng3" class="form-control item" placeholder="Longitude" name="lng" readonly required />
 
                             <div id="map3" style="height: 350px;"></div>
                         </div>
