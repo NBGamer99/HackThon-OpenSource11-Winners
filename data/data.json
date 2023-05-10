@@ -1,0 +1,214 @@
+[
+      {
+            "bounds": {
+                  "northeast": {
+                        "lat": 32.8971885,
+                        "lng": -6.8910697
+                  },
+                  "southwest": {
+                        "lat": 32.890471,
+                        "lng": -6.9062988
+                  }
+            },
+            "copyrights": "Map data \u00a92023",
+            "legs": [
+                  {
+                        "distance": {
+                              "text": "3.0 km",
+                              "value": 3020
+                        },
+                        "duration": {
+                              "text": "7 mins",
+                              "value": 421
+                        },
+                        "end_address": "V4V5+92M Coll\u00e8ge Al Qadi Ayyad, Khouribga, Morocco",
+                        "end_location": {
+                              "lat": 32.8939934,
+                              "lng": -6.892246000000001
+                        },
+                        "start_address": "V3RV+RFP H\u00f4pital Hassan II, Khouribga 25000, Morocco",
+                        "start_location": {
+                              "lat": 32.8925599,
+                              "lng": -6.9062988
+                        },
+                        "steps": [
+                              {
+                                    "distance": {
+                                          "text": "0.2 km",
+                                          "value": 171
+                                    },
+                                    "duration": {
+                                          "text": "1 min",
+                                          "value": 23
+                                    },
+                                    "end_location": {
+                                          "lat": 32.8940807,
+                                          "lng": -6.906063
+                                    },
+                                    "html_instructions": "Head <b>north</b>",
+                                    "polyline": {
+                                          "points": "oiwgEj{ci@_@E_@?e@ESAoC_@e@A"
+                                    },
+                                    "start_location": {
+                                          "lat": 32.8925599,
+                                          "lng": -6.9062988
+                                    },
+                                    "travel_mode": "DRIVING"
+                              },
+                              {
+                                    "distance": {
+                                          "text": "0.4 km",
+                                          "value": 424
+                                    },
+                                    "duration": {
+                                          "text": "1 min",
+                                          "value": 75
+                                    },
+                                    "end_location": {
+                                          "lat": 32.890626,
+                                          "lng": -6.9058278
+                                    },
+                                    "html_instructions": "Turn <b>right</b>",
+                                    "maneuver": "turn-right",
+                                    "polyline": {
+                                          "points": "_swgEzyci@Di@h@m@~AgAz@J`ALpC\\jDb@bBR@@"
+                                    },
+                                    "start_location": {
+                                          "lat": 32.8940807,
+                                          "lng": -6.906063
+                                    },
+                                    "travel_mode": "DRIVING"
+                              },
+                              {
+                                    "distance": {
+                                          "text": "0.1 km",
+                                          "value": 98
+                                    },
+                                    "duration": {
+                                          "text": "1 min",
+                                          "value": 46
+                                    },
+                                    "end_location": {
+                                          "lat": 32.890471,
+                                          "lng": -6.904792199999999
+                                    },
+                                    "html_instructions": "Turn <b>left</b> onto <b>Bd de l\u2019h\u00f4pital</b>",
+                                    "maneuver": "turn-left",
+                                    "polyline": {
+                                          "points": "m}vgElxci@R}ABc@FmA"
+                                    },
+                                    "start_location": {
+                                          "lat": 32.890626,
+                                          "lng": -6.9058278
+                                    },
+                                    "travel_mode": "DRIVING"
+                              },
+                              {
+                                    "distance": {
+                                          "text": "0.8 km",
+                                          "value": 756
+                                    },
+                                    "duration": {
+                                          "text": "2 mins",
+                                          "value": 117
+                                    },
+                                    "end_location": {
+                                          "lat": 32.8971885,
+                                          "lng": -6.9035651
+                                    },
+                                    "html_instructions": "Turn <b>left</b> onto <b>Bd 16 Novembre</b>",
+                                    "maneuver": "turn-left",
+                                    "polyline": {
+                                          "points": "m|vgE|qci@e@EmBSiFw@yEg@q@GOCiBQm@AcAK{AOiBOqASwCWYA"
+                                    },
+                                    "start_location": {
+                                          "lat": 32.890471,
+                                          "lng": -6.904792199999999
+                                    },
+                                    "travel_mode": "DRIVING"
+                              },
+                              {
+                                    "distance": {
+                                          "text": "1.2 km",
+                                          "value": 1175
+                                    },
+                                    "duration": {
+                                          "text": "2 mins",
+                                          "value": 95
+                                    },
+                                    "end_location": {
+                                          "lat": 32.8963196,
+                                          "lng": -6.8911082
+                                    },
+                                    "html_instructions": "Turn <b>right</b> onto <b>R312</b>",
+                                    "maneuver": "turn-right",
+                                    "polyline": {
+                                          "points": "mfxgEhjci@BYFw@LmBb@kGR{CDi@JyA@Ov@}KNiBFeAJ{AHwAB{@B_A@o@@c@?_@?k@Am@Ci@Cq@Cm@Em@Cm@K{AIyBCu@Ai@?W?WBQDU"
+                                    },
+                                    "start_location": {
+                                          "lat": 32.8971885,
+                                          "lng": -6.9035651
+                                    },
+                                    "travel_mode": "DRIVING"
+                              },
+                              {
+                                    "distance": {
+                                          "text": "0.3 km",
+                                          "value": 322
+                                    },
+                                    "duration": {
+                                          "text": "1 min",
+                                          "value": 35
+                                    },
+                                    "end_location": {
+                                          "lat": 32.8939569,
+                                          "lng": -6.892947299999999
+                                    },
+                                    "html_instructions": "At the roundabout, take the <b>1st</b> exit onto <b>Bd Cheikh Ma-Layneen</b>",
+                                    "maneuver": "roundabout-right",
+                                    "polyline": {
+                                          "points": "_axgEl|`i@?A@??A@??A@A?Ad@DNDXTl@f@lAfAnBbBzArAx@n@"
+                                    },
+                                    "start_location": {
+                                          "lat": 32.8963196,
+                                          "lng": -6.8911082
+                                    },
+                                    "travel_mode": "DRIVING"
+                              },
+                              {
+                                    "distance": {
+                                          "text": "74 m",
+                                          "value": 74
+                                    },
+                                    "duration": {
+                                          "text": "1 min",
+                                          "value": 30
+                                    },
+                                    "end_location": {
+                                          "lat": 32.8939934,
+                                          "lng": -6.892246000000001
+                                    },
+                                    "html_instructions": "Turn <b>left</b> onto <b>Rue Caid Ahmed Cheradi</b><div style=\"font-size:0.9em\">Destination will be on the right</div>",
+                                    "maneuver": "turn-left",
+                                    "polyline": {
+                                          "points": "grwgE|gai@F_@@AFc@@_@?GAGACEEOK"
+                                    },
+                                    "start_location": {
+                                          "lat": 32.8939569,
+                                          "lng": -6.892947299999999
+                                    },
+                                    "travel_mode": "DRIVING"
+                              }
+                        ],
+                        "traffic_speed_entry": [],
+                        "via_waypoint": []
+                  }
+            ],
+            "overview_polyline": {
+                  "points": "oiwgEj{ci@_@E_@?y@GoC_@e@ADi@h@m@~AgAz@JrEj@nGv@@@R}AJqBsCYiFw@yEg@aAKiBQm@A_D[iBOqASqDY|@kMf@oHzAiTLsCDoB@cAAyAQwDOiCMoDAaABi@FYBCd@BNDXTzBnBjEvDx@n@F_@He@@g@CKUQ"
+            },
+            "summary": "Bd 16 Novembre and R312",
+            "warnings": [],
+            "waypoint_order": []
+      }
+]
