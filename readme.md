@@ -9,7 +9,28 @@ This Repo contains our proposed solution for the [**OpenSource**](https://openso
 | ![](https://avatars.githubusercontent.com/u/80721528?v=4)  | ![l3agrab](https://avatars.githubusercontent.com/u/82721617?v=4)  | ![](https://avatars.githubusercontent.com/u/74158634?v=4)  |
 
 ## Table Of Contents
-[TOC]
+- [🏆 OpenSource 11 Hackathon Winners](#-opensource-11-hackathon-winners)
+	- [Winners](#winners)
+	- [Table Of Contents](#table-of-contents)
+- [Important 🚨](#important-)
+	- [Our Proposed Solution](#our-proposed-solution)
+	- [Final Product](#final-product)
+	- [Project Structure](#project-structure)
+		- [Dirs](#dirs)
+		- [App](#app)
+		- [src](#src)
+	- [App setup](#app-setup)
+		- [Virtual Environment Setup](#virtual-environment-setup)
+			- [1. Create a Virtual Environment :](#1-create-a-virtual-environment-)
+		- [2. Activate your virtual environment :](#2-activate-your-virtual-environment-)
+		- [3. Installing the required libraries :](#3-installing-the-required-libraries-)
+	- [Prerequisites](#prerequisites)
+		- [Spatialite](#spatialite)
+		- [Install for debian](#install-for-debian)
+		- [check installation version](#check-installation-version)
+		- [Output](#output)
+- [Run your application](#run-your-application)
+
 
 
 # Important 🚨
