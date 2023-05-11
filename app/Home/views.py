@@ -155,7 +155,7 @@ ox.settings.log_console=True
 ox.settings.use_cache=True
 def get_turns_number(origin, destination):
     # replace YOUR_API_KEY with your actual API key
-    gmaps = googlemaps.Client(key='AIzaSyA7WTj7mP7fG9oZ1SnkzVKtQ1KXadqurJU')
+    gmaps = googlemaps.Client(key='YOUR_API_HERE')
 
     # get the directions from Google Maps
     directions = gmaps.directions(origin, destination)
