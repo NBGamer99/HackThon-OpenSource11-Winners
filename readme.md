@@ -37,7 +37,7 @@ This Repo contains our proposed solution for the [**OpenSource**](https://openso
 
 > 🦥 we are just lazy to refactor the code so fell free to do any changes and by cloning and send pulling requests.
 
-##Theme  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🚑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🚓
+## Theme  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🚑&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;🚓
 
 
 
@@ -53,9 +53,11 @@ To achieve our goal of minimizing response time, we developed a solution based o
 *A star algorithm - [source](https://en.wikipedia.org/wiki/A*_search_algorithm)*
 </center>
 
+
+
 # Final Product
 
-![](./assets/ezgif-3-51535799d6.gif)
+[<img src="https://f.hubspotusercontent10.net/hubfs/20614319/Imported_Blog_Media/Call-Center-Etiquette-New.jpg" width="100%">](https://www.youtube.com/watch?v=z5fO8HvCc5g "Wa3Ta9")
 
 # Project Structure
 ## Dirs
